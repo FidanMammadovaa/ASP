@@ -1,0 +1,61 @@
+--CREATE table Showrooms
+--(
+--Id INT PRIMARY key,
+--[Name] nvarchar(30),
+--[Address] nvarchar(30),
+--[PhoneNumber] nvarchar(13) check ([PhoneNumber] LIKE '^(\+994\d{9})$')
+--);
+
+--CREATE table BodyTypes
+--(
+--Id INT PRIMARY key,
+--[Name] nvarchar(30),
+--);
+--CREATE table Cities
+--(
+--Id INT PRIMARY key,
+--[Name] nvarchar(30),
+--);
+--CREATE table Colors
+--(
+--Id INT PRIMARY key,
+--[Name] nvarchar(30),
+--);
+--CREATE table WheelDriveTypes
+--(
+--Id INT PRIMARY key,
+--[Name] nvarchar(30),
+--);
+--CREATE table FuelType
+--(
+--Id INT PRIMARY key,
+--[Name] nvarchar(30),
+--);
+--CREATE table TransmissionTypes
+--(
+--Id INT PRIMARY key,
+--[Name] nvarchar(30),
+--);
+
+--Create table Cars
+--(
+--Id int primary key,
+--Make nvarchar(30),
+--Model nvarchar(30), 
+--[Year] date,
+--VIN nvarchar(30),
+--HorsePower int,
+--PassengerCount int,
+--Price int,
+--ShowRoomId int,
+--BodyTypeId int,
+--CityId int,
+--WheelDriveTypeId int,
+--TransmissionTypeId int,
+--PhoneNumber nvarchar(13) CHECK([PhoneNumber] LIKE '^(\+994\d{9})$'),
+--FOREIGN KEY (ShowRoomId) REFERENCES Showrooms(Id),
+--FOREIGN KEY (BodyTypeId) REFERENCES BodyTypes(Id),
+--FOREIGN KEY (CityId) REFERENCES Cities(Id),
+--FOREIGN KEY (WheelDriveTypeId) REFERENCES WheelDriveTypes(Id),
+--FOREIGN KEY (TransmissionTypeId) REFERENCES TransmissionTypes(Id),
+--);
