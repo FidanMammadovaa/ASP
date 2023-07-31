@@ -50,3 +50,8 @@ C:\Users\Lenovo\Homework\ASP.NET projects\MyNewConverter\MyConverter\obj\Debug\n
 C:\Users\Lenovo\Homework\ASP.NET projects\MyNewConverter\MyConverter\obj\Debug\net6.0\MyConverter.pdb
 C:\Users\Lenovo\Homework\ASP.NET projects\MyNewConverter\MyConverter\obj\Debug\net6.0\MyConverter.genruntimeconfig.cache
 C:\Users\Lenovo\Homework\ASP.NET projects\MyNewConverter\MyConverter\obj\Debug\net6.0\ref\MyConverter.dll
+C:\Users\Lenovo\Homework\ASP.NET projects\MyNewConverter\MyConverter\obj\Debug\net6.0\staticwebassets\msbuild.MyConverter.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\Lenovo\Homework\ASP.NET projects\MyNewConverter\MyConverter\obj\Debug\net6.0\staticwebassets\msbuild.build.MyConverter.props
+C:\Users\Lenovo\Homework\ASP.NET projects\MyNewConverter\MyConverter\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.MyConverter.props
+C:\Users\Lenovo\Homework\ASP.NET projects\MyNewConverter\MyConverter\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.MyConverter.props
+C:\Users\Lenovo\Homework\ASP.NET projects\MyNewConverter\MyConverter\obj\Debug\net6.0\staticwebassets.pack.json
