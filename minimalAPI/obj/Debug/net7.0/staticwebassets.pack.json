@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Lenovo\\Homework\\ASP.NET projects\\MinimalAPI\\MinimalAPI\\wwwroot\\css\\minimalAPIstyle.css",
+      "PackagePath": "staticwebassets\\css\\minimalAPIstyle.css"
+    },
+    {
+      "Id": "C:\\Users\\Lenovo\\Homework\\ASP.NET projects\\MinimalAPI\\MinimalAPI\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.MinimalAPI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.MinimalAPI.props",
+      "PackagePath": "build\\MinimalAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.MinimalAPI.props",
+      "PackagePath": "buildMultiTargeting\\MinimalAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.MinimalAPI.props",
+      "PackagePath": "buildTransitive\\MinimalAPI.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

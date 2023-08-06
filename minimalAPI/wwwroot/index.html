@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/minimalAPIstyle.css" />
+</head>
+<body>
+
+    <nav class="navbar navbar-expand navbar-light bg-light">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" onclick="showContainer('getAllContainer')">GET</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="showContainer('getByIdContainer')">GET BY ID</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="showContainer('postContainer')">POST</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="showContainer('deleteContainer')">DELETE</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="showContainer('patchContainer')">PATCH</a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <header>Minimal API</header>
+
+    <div class="card" id="getAllContainer" style="display: none">
+        <header>GET</header>
+        <button id="getAllBtn" type="button" class="btn btn-primary">GET</button>
+    </div>
+
+    <div class="card" id="getByIdContainer" style="display: none">
+        <button id="getByIdBtn" type="button" class="btn btn-primary">GET BY ID</button>
+        <input class="form-control" id="idInput" placeholder="Enter id">
+
+    </div>
+
+    <div class="card" id="postContainer" style="display: none">
+        <button id="postBtn" type="button" class="btn btn-primary">POST</button>
+        <input class="form-control" id="emailInput" placeholder="Enter email">
+        <input class="form-control" id="passwordInput" placeholder="Enter password">
+    </div>
+
+    <div class="card" id="deleteContainer" style="display: none">
+        <button id="deleteBtn" type="button" class="btn btn-primary">DELETE</button>
+        <input class="form-control" id="deleteIdInput" placeholder="Enter id">
+    </div>
+
+
+    <div id="patchContainer" class="card" style="display: none">
+        <header>PATCH</header>
+        <button id="patchBtn" type="button" class="btn btn-primary">PATCH</button>
+        <input class="form-control" id="patchIdInput" placeholder="Enter id">
+        <input class="form-control" id="patchEmailInput" placeholder="Enter new email">
+        <input class="form-control" id="patchPasswordInput" placeholder="Enter new password">
+    </div>
+
+    <div id="userInfoContainer" class="card" style="display: none">
+        <header>User Info</header>
+        <select id="userSelect" class="form-control" style="display: none">
+        </select>
+        <div id="selectedUserInfo">
+        </div>
+    </div>
+
+    <script>
+        class User {
+            constructor(id, email, password) {
+                this.id = id;
+                this.email = email;
+                this.password = password
+            }
+        }
+
+
+        let users = [];
+
+        function showContainer(containerId) {
+            let containers = document.getElementsByClassName("card");
+            for (let container of containers) {
+                container.style.display = "none";
+            }
+            document.getElementById(containerId).style.display = "block";
+        }
+        document.getElementById("userSelect").addEventListener("change", function () {
+            let selectedIndex = document.getElementById('userSelect').selectedIndex;
+            let selectedUser = users[selectedIndex];
+            if (selectedUser) {
+                document.getElementById('selectedUserInfo').innerText = `Id: ${selectedUser.id}\n Email: ${selectedUser.email}\n Password: ${selectedUser.password}\n`;
+            }
+        });
+        document.getElementById("getAllBtn").addEventListener("click", async () => {
+            try {
+                document.getElementById('getAllContainer').style.display = "none";
+                document.getElementById('selectedUserInfo').innerText = "";
+                document.getElementById('userInfoContainer').style.display = "block";
+                document.getElementById('userSelect').style.display = "block";
+
+                let userSelect = document.getElementById('userSelect');
+                while (userSelect.firstChild) {
+                    userSelect.removeChild(userSelect.firstChild);
+                }
+
+                let response = await fetch("/getAll");
+                let data = await response.json();
+
+                users = data.map(item => new User(item.id, item.email, item.password));
+
+                users.forEach(user => {
+                    let userItem = document.createElement('option');
+                    userItem.innerHTML = `${user.id} User`;
+                    document.getElementById('userSelect').appendChild(userItem);
+
+                });
+                document.getElementById('userSelect').selectedIndex = -1;
+
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        });
+        document.getElementById("getByIdBtn").addEventListener("click", async () => {
+            try {
+                document.getElementById('userSelect').style.display = "none";
+                document.getElementById('userInfoContainer').style.display = "block";
+                id = document.getElementById('idInput').value;
+                let response = await fetch(`/getById/${id}`);
+                let data = await response.json();
+
+                if (data.id) {
+                    let user = new User(data.id, data.email, data.password);
+                    document.getElementById('selectedUserInfo').innerText = `Id: ${user.id}\n Email: ${user.email}\n Password: ${user.password}\n`;
+                } else {
+                    document.getElementById('selectedUserInfo').innerText = "User not found.";
+                }
+            }
+            catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        });
+        document.getElementById("postBtn").addEventListener("click", async () => {
+
+            try {
+                let email = document.getElementById('emailInput').value;
+                let password = document.getElementById('passwordInput').value;
+
+                let userRequest = {
+                    email: email,
+                    password: password
+                };
+
+                let response = await fetch('/post', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userRequest)
+                });
+
+                if (response.ok) {
+                    console.log('User was successfully added');
+                } else {
+                    let errorText = await response.text();
+                    console.error('Error was caused while adding user:', errorText);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+        document.getElementById("deleteBtn").addEventListener("click", async () => {
+            try {
+                let id = document.getElementById("deleteIdInput").value;
+                let response = await fetch(`/delete/${id}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    console.log('User was successfully deleted');
+                } else {
+                    let errorText = await response.text();
+                    console.error('Error was caused while deleted user:', errorText);
+                }
+            }
+            catch (error) {
+                console.error('Error:', error);
+            }
+
+        });
+        document.getElementById("patchBtn").addEventListener("click", async () => {
+            try {
+                let id = document.getElementById('patchIdInput').value;
+                let email = document.getElementById('patchEmailInput').value;
+                let password = document.getElementById('patchPasswordInput').value;
+
+                let data =
+                {
+                    email: email,
+                    password: password
+                };
+
+                let response = await fetch(`/patch/${id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                if (response.ok) {
+                    console.log('User was successfully updated');
+                } else {
+                    let errorText = await response.text();
+                    console.error('Error was caused while updating user:', errorText);
+                }
+            }
+            catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
