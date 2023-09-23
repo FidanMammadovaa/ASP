@@ -22,18 +22,18 @@ namespace ASP_Project.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IUserStore<User> _userStore;
-        private readonly IUserEmailStore<User> _emailStore;
+        private readonly IUserStore<ApplicationUser> _userStore;
+        private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<User> userManager,
-            IUserStore<User> userStore,
-            SignInManager<User> signInManager,
+            UserManager<ApplicationUser> userManager,
+            IUserStore<ApplicationUser> userStore,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             RoleManager<IdentityRole> roleManager)
@@ -72,6 +72,23 @@ namespace ASP_Project.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [RegularExpression(@"[a-zA-Z]+")]
+            [Display(Name = "First name")]
+            public string FirstName { get; set; }
+            [Required]
+            [RegularExpression(@"[a-zA-Z]+")]
+            [Display(Name = "Last name")]
+
+            public string LastName { get; set; }
+
+            public string Address { get; set; }
+
+            [Required]
+            [RegularExpression(@"^\+994\d{9}$")]
+            [Display(Name = "Phone number")]
+            public string PhoneNumber { get; set; }
         }
 
 
@@ -106,6 +123,12 @@ namespace ASP_Project.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    if (Input.Email == "goldwolverinee@gmail.com")
+                    {
+                        await _userManager.AddToRoleAsync(user, _roleManager.Roles.First(x => x.Name == "Admin").Name);
+                    }
+
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
@@ -114,7 +137,7 @@ namespace ASP_Project.Areas.Identity.Pages.Account
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                        values: new {  area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
@@ -139,11 +162,19 @@ namespace ASP_Project.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private User CreateUser()
+        private ApplicationUser CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<User>();
+                var user = new ApplicationUser()
+                {
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName,
+                    Address = Input.Address,
+                    PhoneNumber = Input.PhoneNumber,
+                    Email = Input.Email
+                };
+                return user;
             }
             catch
             {
@@ -153,13 +184,13 @@ namespace ASP_Project.Areas.Identity.Pages.Account
             }
         }
 
-        private IUserEmailStore<User> GetEmailStore()
+        private IUserEmailStore<ApplicationUser> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<User>)_userStore;
+            return (IUserEmailStore<ApplicationUser>)_userStore;
         }
     }
 }

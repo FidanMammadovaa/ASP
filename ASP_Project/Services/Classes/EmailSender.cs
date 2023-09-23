@@ -17,11 +17,12 @@ namespace ASP_Project.Services.Classes
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential()
                 {
-                    UserName = "goldwolverinee@gmail.com",
+                    UserName = "zeynalovayxan70@gmail.com",
+                    Password = "vvcssdtkqcjezuay"
                 }
             };
 
-            MailAddress FromEmail = new MailAddress("goldwolverinee@gmail.com", "From");
+            MailAddress FromEmail = new MailAddress("zeynalovayxan70@gmail.com", "From");
             MailAddress ToEmail = new MailAddress(email, "To");
 
 

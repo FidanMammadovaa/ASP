@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 namespace ASP_Project.Areas.Identity.Data.DbContexts;
 
-public class UserContext : IdentityDbContext<User>
+public class UserContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderDetail> OrderDetails { get; set; }
@@ -27,7 +27,8 @@ public class UserContext : IdentityDbContext<User>
         builder.Entity<Category>().HasKey(c => c.Id);
         builder.Entity<PaymentDetail>().HasKey(p => p.Id);
 
-
+        builder.Entity<PaymentDetail>().Property(p => p.Amount).HasColumnType("decimal");
+        builder.Entity<Product>().Property(p => p.Price).HasColumnType("decimal");
 
         base.OnModelCreating(builder);
         
