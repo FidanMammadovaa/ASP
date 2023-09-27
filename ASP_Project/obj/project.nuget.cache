@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "HNKMQSQDXrxPpIVc5VTpxz5oi3dIyn32PWB6KOlL4cDoS+bTRMRbKeQ5CrxzXpP+JfVdv40wzX9VtLpMSh2P/w==",
+  "dgSpecHash": "ObQeTF1t4ojY3ryIwxhq4ZXLeVSiP7l8A3EmrCyAm5wZmsgAwyXomv6QOuYd6DDF7e+5+tCOYLf6aVBWrf6/QQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Lenovo\\Homework\\ASP.NET projects\\ASP_Project\\ASP_Project\\ASP_Project.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lenovo\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\fluentvalidation\\11.7.1\\fluentvalidation.11.7.1.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\humanizer.core.af\\2.14.1\\humanizer.core.af.2.14.1.nupkg.sha512",

@@ -11,7 +11,6 @@ namespace ASP_Project.Areas.Identity.Data.Models
 
         public string Description { get; set; }
 
-        public List<Product> Products { get; set; }
 
     }
 

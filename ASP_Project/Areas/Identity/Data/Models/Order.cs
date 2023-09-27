@@ -14,7 +14,7 @@ namespace ASP_Project.Areas.Identity.Data.Models
 
         public string OrderStatus { get; set; } 
 
-        public virtual List<OrderDetail> OrderDetails { get; set; }
+        public virtual List<OrderDetail>? OrderDetails { get; set; }
 
     }
 }

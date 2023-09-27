@@ -4,6 +4,8 @@ using ASP_Project.Areas.Identity.Data.DbContexts;
 using ASP_Project.Areas.Identity.Data.Models;
 using ASP_Project.Services.Classes;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using ASP_Project.Areas.Identity.Data.Validators;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
@@ -19,6 +21,9 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddDefaultTokenProviders()
     .AddEntityFrameworkStores<UserContext>();
+
+builder.Services.AddScoped<IValidator<Category>, CategoryValidator>();
+builder.Services.AddScoped<IValidator<Product>, ProductValidator>();
 
 
 var app = builder.Build();
@@ -40,9 +45,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
