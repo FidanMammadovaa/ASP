@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
+// hey bitch
 namespace ASP_Project.Areas.Admin.Controllers
 {
 	[Area("Admin")]
@@ -39,10 +40,10 @@ namespace ASP_Project.Areas.Admin.Controllers
 		}
 
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create(Order order)
-		{
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
+		//public async Task<IActionResult> Create(Order order)
+		//{
 			//var result = await _productValidator.ValidateAsync();
 
 			//if (result.IsValid)
@@ -55,7 +56,7 @@ namespace ASP_Project.Areas.Admin.Controllers
 			//result.AddToModelState(this.ModelState);
 
 			//return View(order);
-		}
+		//}
 
 
 
