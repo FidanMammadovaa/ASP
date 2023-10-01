@@ -4,6 +4,8 @@ using ASP_Project.Areas.Identity.Data.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ASP_Project.Areas.Admin.Controllers;
 
@@ -24,6 +26,10 @@ public class ProductController : Controller
     public IActionResult Index()
     {
         var products = _dbContext.Products.ToList();
+        foreach (var product in products)
+        {
+            product.Category = _dbContext.Categories.FirstOrDefault(c => c.Id == product.CategoryId);
+        }
         if (products != null)
         {
             return View(products);
@@ -44,7 +50,11 @@ public class ProductController : Controller
 
         if (result.IsValid)
         {
+            //var category = _dbContext.Categories.FirstOrDefault(category => product.CategoryId == category.Id);
+            //category?.Products?.Add(product);
+            //product.Category = category;
             _dbContext.Products.Add(product);
+
             _dbContext.SaveChanges();
             TempData["success"] = "Product created succsessfully";
             return RedirectToAction("Index", "Product");
@@ -55,10 +65,9 @@ public class ProductController : Controller
     }
 
 
-
     public IActionResult Edit(int id)
     {
-        var product = _dbContext.Categories.Find(id);
+        var product = _dbContext.Products.Find(id);
 
         if (product == null)
         {
@@ -74,7 +83,7 @@ public class ProductController : Controller
     {
         var result = await _productValidator.ValidateAsync(product);
 
-        if (ModelState.IsValid)
+        if (result.IsValid)
         {
             _dbContext.Products.Update(product);
             _dbContext.SaveChanges();

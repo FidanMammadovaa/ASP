@@ -39,7 +39,7 @@ namespace ASP_Project.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Category? category)
+        public async Task<IActionResult> Create(Category category)
         {
             var result = await _categoryValidator.ValidateAsync(category);
 

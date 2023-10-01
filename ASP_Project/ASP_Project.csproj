@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Views\Product\" />
     <Folder Include="Controllers\" />
   </ItemGroup>
 
