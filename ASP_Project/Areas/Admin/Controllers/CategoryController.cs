@@ -4,6 +4,7 @@ using ASP_Project.Areas.Identity.Data.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace ASP_Project.Areas.Admin.Controllers
@@ -69,27 +70,64 @@ namespace ASP_Project.Areas.Admin.Controllers
             return View(category);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Category category)
-        {
-            var result = await _categoryValidator.ValidateAsync(category);
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(Category category)
+		{
+			#region
+			//ModelState.Clear();
+			//var result = await _categoryValidator.ValidateAsync(category);
 
-            if (ModelState.IsValid)
-            {
-                _dbContext.Categories.Update(category);
-                _dbContext.SaveChanges();
-                TempData["success"] = "Category updated succsessfully";
+			//if (result.IsValid)
+			//{
+			//    _dbContext.Categories.Update(category);
+			//    _dbContext.SaveChanges();
+			//    TempData["success"] = "Category updated succsessfully";
 
-                return RedirectToAction("Index", "Category");
-            }
-            result.AddToModelState(this.ModelState);
+			//    return RedirectToAction("Index", "Category");
+			//}
+			//result.AddToModelState(this.ModelState);
 
-            return View(category);
-        }
+			//return View(category); 
+			#endregion
+			var existingCategory = _dbContext.Categories.AsNoTracking().FirstOrDefault(c => c.Id == category.Id);
+			if (existingCategory.Name != category.Name)
+			{
+				ModelState.Clear();
+				var result = await _categoryValidator.ValidateAsync(category);
+
+				if (result.IsValid)
+				{
+
+					_dbContext.Categories.Update(category);
+					_dbContext.SaveChanges();
+					TempData["success"] = "Category updated succsessfully";
+
+					return RedirectToAction("Index", "Category");
+				}
+				result.AddToModelState(this.ModelState);
+			}
+			else
+			{
+				if (ModelState.IsValid)
+				{
+
+					_dbContext.Categories.Update(category);
+					_dbContext.SaveChanges();
+					TempData["success"] = "Category updated succsessfully";
+
+					return RedirectToAction("Index", "Category");
+				}
+				else
+				{
+					ModelState.AddModelError("category.Description", "Category description must be between 1 and 100 characters");
+				}
+			}
+			return View(category);
+		}
 
 
-        public IActionResult Delete(int id)
+		public IActionResult Delete(int id)
         {
             var category = _dbContext!.Categories!.Find(id);
 
