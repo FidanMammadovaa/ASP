@@ -91,40 +91,43 @@ namespace ASP_Project.Areas.Admin.Controllers
 			//return View(category); 
 			#endregion
 			var existingCategory = _dbContext.Categories.AsNoTracking().FirstOrDefault(c => c.Id == category.Id);
-			if (existingCategory.Name != category.Name)
-			{
-				ModelState.Clear();
-				var result = await _categoryValidator.ValidateAsync(category);
+            if (existingCategory != null)
+            {
+                if (existingCategory.Name != category.Name)
+                {
+                    ModelState.Clear();
+                    var result = await _categoryValidator.ValidateAsync(category);
 
-				if (result.IsValid)
-				{
+                    if (result.IsValid)
+                    {
 
-					_dbContext.Categories.Update(category);
-					_dbContext.SaveChanges();
-					TempData["success"] = "Category updated succsessfully";
+                        _dbContext.Categories.Update(category);
+                        _dbContext.SaveChanges();
+                        TempData["success"] = "Category updated succsessfully";
 
-					return RedirectToAction("Index", "Category");
-				}
-				result.AddToModelState(this.ModelState);
-			}
-			else
-			{
-				if (ModelState.IsValid)
-				{
+                        return RedirectToAction("Index", "Category");
+                    }
+                    result.AddToModelState(this.ModelState);
+                }
+                else
+                {
+                    if (ModelState.IsValid)
+                    {
 
-					_dbContext.Categories.Update(category);
-					_dbContext.SaveChanges();
-					TempData["success"] = "Category updated succsessfully";
+                        _dbContext.Categories.Update(category);
+                        _dbContext.SaveChanges();
+                        TempData["success"] = "Category updated succsessfully";
 
-					return RedirectToAction("Index", "Category");
-				}
-				else
-				{
-					ModelState.AddModelError("category.Description", "Category description must be between 1 and 100 characters");
-				}
-			}
-			return View(category);
-		}
+                        return RedirectToAction("Index", "Category");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("category.Description", "Category description must be between 1 and 100 characters");
+                    }
+                }
+            }
+            return View(category);
+        }
 
 
 		public IActionResult Delete(int id)
